@@ -1,9 +1,10 @@
 import { Paper, Text, createStyles } from '@mantine/core';
 import { Image } from '@mantine/core';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { InventoryItem } from '@/api/gamioApi';
 import Badge from '@/components/Card/components/Badge';
-import CodeButton from '@/components/Card/components/CodeButton';
+import Button from '@/components/Card/components/CodeButton';
 import { CardType } from '@/components/Card/type';
 
 const useStyles = createStyles({
@@ -42,27 +43,33 @@ const useStyles = createStyles({
   },
 });
 
-type CardProps = {
-  imageUrl: string;
-  title: string;
-  cardType: CardType;
-};
+type CardProps = InventoryItem;
+
+const getCardType = (item: InventoryItem): CardType =>
+  item.shipped
+    ? CardType.Shipped
+    : item.used
+    ? CardType.Used
+    : item.claimed
+    ? CardType.Claimed
+    : CardType.Owned;
 
 const Card: FC<CardProps> = (props) => {
   const { cx, classes } = useStyles();
+  const cardType = useState(() => getCardType(props))[0];
   return (
-    <Paper className={cx(classes.root, classes[props.cardType])}>
+    <Paper className={cx(classes.root, classes[cardType])}>
       <Image
         withPlaceholder
         mb={24}
         width={220}
         height={220}
         alt="inventory-image"
-        src={props.imageUrl}
+        src={props.image_url}
       />
-      <Badge cardType={props.cardType} />
+      <Badge cardType={cardType} />
       <Text className={classes.title}>{props.title}</Text>
-      <CodeButton cardType={props.cardType} label="AP345CNfjf03..." />
+      <Button type={props.type} code={props.code} />
     </Paper>
   );
 };

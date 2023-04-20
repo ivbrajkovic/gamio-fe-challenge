@@ -1,8 +1,8 @@
-import { Flex, createStyles, rem } from '@mantine/core';
+import { Box, Flex, createStyles, rem } from '@mantine/core';
+import { IconUser } from '@tabler/icons-react';
 import Image from 'next/image';
 import { FC } from 'react';
 
-import avatarDefault from '@/assets/img/avatar-default.png';
 import rectBlue from '@/assets/img/rect-blue.svg';
 
 const useStyles = createStyles((theme) => ({
@@ -16,11 +16,19 @@ const useStyles = createStyles((theme) => ({
       display: 'block',
     },
   },
-  avatar: {
+  avatarContainer: {
+    position: 'relative',
+    overflow: 'hidden',
     zIndex: 1,
     width: 102,
     height: 102,
     borderRadius: '50%',
+    color: theme.fn.primaryColor(),
+    backgroundColor: theme.colors.gray[0],
+
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 
     [theme.fn.largerThan('xs')]: {
       marginLeft: rem(64),
@@ -34,14 +42,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type UserAvatarProps = {};
+type UserAvatarProps = {
+  avatarUrl: string | undefined;
+};
 
-const UserAvatar: FC<UserAvatarProps> = () => {
+const UserAvatar: FC<UserAvatarProps> = ({ avatarUrl }) => {
   const { classes } = useStyles();
   return (
     <Flex pos="relative">
       <Image src={rectBlue} alt="" className={classes.rect} />
-      <Image src={avatarDefault} alt="" className={classes.avatar} />
+      <Box className={classes.avatarContainer}>
+        {avatarUrl ? (
+          <Image fill src={avatarUrl} alt="" />
+        ) : (
+          <IconUser width="80%" height="80%" />
+        )}
+      </Box>
     </Flex>
   );
 };

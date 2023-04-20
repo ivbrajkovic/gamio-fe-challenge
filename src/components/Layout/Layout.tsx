@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { ReactNode } from 'react';
 
-import { Hero } from '@/components/Header';
+import { Header } from '@/components/Header';
 
 type LayoutProps = { children: ReactNode };
 
 const Layout: FC<LayoutProps> = ({ children }) => (
   <>
-    <Hero />
+    <Header />
     <main>{children}</main>
   </>
 );

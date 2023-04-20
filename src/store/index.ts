@@ -6,6 +6,8 @@ export const store = configureStore({
   reducer: {
     [gamioApi.reducerPath]: gamioApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(gamioApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

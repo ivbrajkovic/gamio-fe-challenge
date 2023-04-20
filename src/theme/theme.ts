@@ -11,6 +11,11 @@ export const theme: MantineThemeOverride = {
   primaryColor: 'primary',
   primaryShade: 6,
 
+  headings: {
+    fontFamily: 'Inter',
+    fontWeight: 600,
+  },
+
   components: {
     Container: {
       defaultProps: {

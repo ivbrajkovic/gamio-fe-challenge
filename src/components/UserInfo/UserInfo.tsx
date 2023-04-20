@@ -1,6 +1,6 @@
 import { Box, Stack, Text, createStyles } from '@mantine/core';
-import { FC } from 'react';
 
+import { useGetUserQuery } from '@/api/gamioApi';
 import UserAvatar from '@/components/UserInfo/UserAvatar';
 
 const useStyles = createStyles((theme) => ({
@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
     textTransform: 'uppercase',
     color: '#143757',
     [theme.fn.largerThan('xs')]: {
-      color: '#fff',
+      color: theme.colors.gray[0],
     },
   },
   upper: {
@@ -35,7 +35,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 14,
     fontWeight: 900,
     textTransform: 'uppercase',
-    color: '#4175FA',
+    color: theme.fn.primaryColor(),
   },
   displayName: {
     fontSize: 14,
@@ -46,20 +46,21 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type UserInfoProps = {};
-
-const UserInfo: FC<UserInfoProps> = () => {
+const UserInfo = () => {
   const { classes } = useStyles();
+  const { data } = useGetUserQuery('0');
+
+  if (!data) return null;
 
   return (
     <Box className={classes.root}>
-      <UserAvatar />
+      <UserAvatar avatarUrl={data.AvatarUrl} />
       <Stack spacing={8}>
         <Box pos="relative">
-          <Text className={classes.fullName}>gud boi</Text>
-          <Text className={classes.upper}>24</Text>
+          <Text className={classes.fullName}>{data.Name}</Text>
+          <Text className={classes.upper}>{data.level}</Text>
         </Box>
-        <Text className={classes.displayName}>@gudboi45</Text>
+        <Text className={classes.displayName}>@{data.Username}</Text>
       </Stack>
     </Box>
   );

@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    API_URL: string;
-    ACCESS_TOKEN: string;
+    NEXT_PUBLIC_GAMIO_API_URL: string;
+    NEXT_PUBLIC_GAMIO_ACCESS_TOKEN: string;
   }
 }
